@@ -201,18 +201,51 @@ development_engineer_evaluation_agent = EvaluationAgent(
 #   4. Return the final validated response.
 
 def product_manager_support_function(query):
-    """Process query through Product Manager knowledge and evaluation agents."""
+    """
+    Process query through Product Manager knowledge and evaluation agents.
+
+    Pipeline:
+    1. Knowledge agent generates initial response
+    2. Evaluation agent validates and refines the response
+    """
+    # Step 1: Get response from Knowledge Agent 
+    knowledge_response = product_manager_knowledge_agent.respond(query)
+
+    # Step 2: Evaluate the response (EvaluationAgent will internally call respond() again)    
     result = product_manager_evaluation_agent.evaluate(query)
+
     return result['final_response']
 
 def program_manager_support_function(query):
-    """Process query through Program Manager knowledge and evaluation agents."""
+    """
+    Process query through Program Manager knowledge and evaluation agents.
+
+    Pipeline:
+    1. Knowledge agent generates initial response
+    2. Evaluation agent validates and refines the response
+    """
+    # Step 1: Get response from Knowledge Agent 
+    knowledge_response = program_manager_knowledge_agent.respond(query)
+
+    # Step 2: Evaluate the response (EvaluationAgent will internally call respond() again)    
     result = program_manager_evaluation_agent.evaluate(query)
+
     return result['final_response']
 
 def development_engineer_support_function(query):
-    """Process query through Development Engineer knowledge and evaluation agents."""
+    """
+    Process query through Development Engineer knowledge and evaluation agents.
+
+    Pipeline:
+    1. Knowledge agent generates initial response
+    2. Evaluation agent validates and refines the response
+    """
+    
+    knowledge_response = development_engineer_knowledge_agent.respond(query)
+
+    # Step 2: Evaluate the response (EvaluationAgent will internally call respond() again)    
     result = development_engineer_evaluation_agent.evaluate(query)
+
     return result['final_response']
 
 # ============================================================================
