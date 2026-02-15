@@ -1,19 +1,10 @@
 """
-Simple Logging Utilities for Agentic Workflows
-
-Minimal logging infrastructure providing dual console + file output with timestamps.
-This is a simplified alternative to workflow_utils.py - 90% less code, adequate for
-most use cases.
+Simple Logging Utilities for Agentic Workflow
 
 Key Features:
 - Dual logging: Console + file with identical output
 - Timestamped log files for tracking multiple runs
 - Pure Python stdlib, no external dependencies
-
-What's NOT included (vs workflow_utils.py):
-- No retry logic (no safe_api_call decorator)
-- No execution timing (no WorkflowTimer class)
-- Same log level for console and file (INFO)
 
 Usage Example:
     from simple_logging import setup_simple_logging
