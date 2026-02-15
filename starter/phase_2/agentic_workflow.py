@@ -251,7 +251,13 @@ print("*** Workflow execution started ***")
 print("="*80 + "\n")
 
 # Workflow Prompt
-workflow_prompt = "What would the development tasks for this product be?"
+workflow_prompt = (
+    "Create a comprehensive project plan for the Email Router product that includes:\n"
+    "1. User Stories - Define user stories for all key user personas (email recipients, support teams, product managers, admins)\n"
+    "2. Product Features - Group related user stories into product features\n"
+    "3. Development Tasks - Break down each feature into specific development tasks\n"
+    "Generate all three components for a complete project plan."
+)
 print(f"Task to complete in this workflow, workflow prompt = {workflow_prompt}")
 logger.info(f"Workflow prompt: {workflow_prompt}")
 
@@ -317,12 +323,63 @@ for i, step in enumerate(workflow_steps, 1):
 print("\n" + "="*80)
 print("FINAL WORKFLOW OUTPUT")
 print("="*80)
+print("\nComprehensive Project Plan for Email Router")
+print("="*80)
 
-if completed_steps:
-    print("\nThe workflow has completed all steps. The final output is:")
-    print()
-    print(completed_steps[-1])
-else:
+# Organize completed steps by type
+user_stories = []
+features = []
+tasks = []
+
+for i, step in enumerate(completed_steps):
+    step_str = str(step).lower()
+    # Classify based on content structure
+    if "as a" in step_str and "i want" in step_str and "so that" in step_str:
+        user_stories.append(step)
+    elif "feature name:" in step_str or "key functionality:" in step_str:
+        features.append(step)
+    elif "task id:" in step_str or "acceptance criteria:" in step_str:
+        tasks.append(step)
+    else:
+        # Fallback: try to infer from position or add to appropriate section
+        if i < len(completed_steps) / 3:
+            user_stories.append(step)
+        elif i < 2 * len(completed_steps) / 3:
+            features.append(step)
+        else:
+            tasks.append(step)
+
+# Print User Stories Section
+if user_stories:
+    print("\n" + "="*80)
+    print("USER STORIES")
+    print("="*80)
+    for story in user_stories:
+        print(f"\n{story}")
+        print("-" * 80)
+
+# Print Features Section
+if features:
+    print("\n" + "="*80)
+    print("PRODUCT FEATURES")
+    print("="*80)
+    for feature in features:
+        print(f"\n{feature}")
+        print("-" * 80)
+
+# Print Tasks Section
+if tasks:
+    print("\n" + "="*80)
+    print("DEVELOPMENT TASKS")
+    print("="*80)
+    for task in tasks:
+        print(f"\n{task}")
+        print("-" * 80)
+
+print("\n*** Workflow execution completed ***\n")
+print(f"Generated: {len(user_stories)} user stories, {len(features)} features, {len(tasks)} tasks")
+
+if not completed_steps:
     print("\n❌ No steps were completed successfully.")
 
 # ============================================================================
