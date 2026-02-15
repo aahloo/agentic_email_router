@@ -1,4 +1,4 @@
-# Agentic Email Router - Simplified Solution
+# Agentic Email Router - Enhanced with Simple Logging/Error Handling
 
 AI-powered agentic workflow system for automated email routing and product management planning using OpenAI's GPT models.
 
@@ -13,7 +13,7 @@ AI-powered agentic workflow system for automated email routing and product manag
 
 ### Phase 2: Integrated Workflow (Simplified Solution)
 - Minimal logging infrastructure (`simple_logging.py`)
-- Simplified workflow with basic error handling
+- Workflow with basic error handling
 - Multi-agent orchestration for:
   - Product Manager: User story generation
   - Program Manager: Feature definition
@@ -59,9 +59,9 @@ python routing_agent.py
 # ... test other agents
 ```
 
-### Phase 2: Integrated Workflow (Simplified Solution)
+### Phase 2: Integrated Workflow 
 
-Run the simplified workflow:
+Run the workflow:
 ```bash
 cd starter/phase_2
 python agentic_workflow_simple.py
@@ -74,8 +74,7 @@ python agentic_workflow_simple.py
 
 ## Documentation
 
-- [Simplified Solution README](starter/phase_2/README_SIMPLE.md) - Detailed guide for the Simplified workflow
-- [Phase 1 README](starter/phase_1/README.md) - Individual agent documentation
+- Logging/Error Handling README](starter/phase_2/README_LOG_EH.md) - Detailed guide for the logging and handling features
 
 ## Project Structure
 
@@ -93,21 +92,5 @@ agentic-email-router/
         ├── agentic_workflow_simple.py  # Main workflow
         ├── simple_logging.py            # Logging utilities
         ├── Product-Spec-Email-Router.txt
-        └── README_SIMPLE.md             # Detailed docs
+        └── README_LOG_EH.md             # Detailed doc
 ```
-
-## Troubleshooting
-
-**"ModuleNotFoundError: No module named 'openai'"**
-- Run: `pip install -r requirements.txt`
-
-**"OPENAI_API_KEY environment variable not set"**
-- Ensure `.env` file exists with valid API key
-- Check `.env` is in the project root directory
-
-**"Product-Spec-Email-Router.txt not found"**
-- Run the workflow from the `starter/phase_2` directory
-
-## License
-
-Educational project - Udacity Agentic AI Nanodegree
