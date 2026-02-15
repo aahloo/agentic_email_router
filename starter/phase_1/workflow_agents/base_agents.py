@@ -133,13 +133,32 @@ class RAGKnowledgePromptAgent:
         Returns:
         list: The embedding vector.
         """
-        client = OpenAI(base_url="https://openai.vocareum.com/v1", api_key=self.openai_api_key)
+        client = OpenAI(
+            base_url="https://openai.vocareum.com/v1",
+            api_key=self.openai_api_key,
+            timeout=30.0  # Add 30-second timeout to prevent indefinite hangs
+        )
         response = client.embeddings.create(
             model="text-embedding-3-large",
             input=text,
             encoding_format="float"
         )
         return response.data[0].embedding
+
+    def _get_embedding_with_progress(self, text, chunk_num, total_chunks):
+        """
+        Wrapper for get_embedding with progress indicator.
+
+        Parameters:
+        text (str): Text to embed.
+        chunk_num (int): Current chunk number.
+        total_chunks (int): Total number of chunks.
+
+        Returns:
+        list: The embedding vector.
+        """
+        print(f"  Processing chunk {chunk_num}/{total_chunks}...")
+        return self.get_embedding(text)
 
     def calculate_similarity(self, vector_one, vector_two):
         """
@@ -186,7 +205,12 @@ class RAGKnowledgePromptAgent:
                 "end_char": end
             })
 
-            start = end - self.chunk_overlap
+            # Fix: Check if we've reached the end of the text
+            if end == len(text):
+                break
+            else:
+                start = end - self.chunk_overlap
+
             chunk_id += 1
 
         with open(f"chunks-{self.unique_filename}", 'w', newline='', encoding='utf-8') as csvfile:
@@ -205,7 +229,16 @@ class RAGKnowledgePromptAgent:
         DataFrame: DataFrame containing text chunks and their embeddings.
         """
         df = pd.read_csv(f"chunks-{self.unique_filename}", encoding='utf-8')
-        df['embeddings'] = df['text'].apply(self.get_embedding)
+        total_chunks = len(df)
+        print(f"Calculating embeddings for {total_chunks} chunks...")
+
+        # Calculate embeddings with progress tracking
+        embeddings = []
+        for idx, text in enumerate(df['text'], 1):
+            embeddings.append(self._get_embedding_with_progress(text, idx, total_chunks))
+        df['embeddings'] = embeddings
+
+        print("Embeddings calculation complete!")
         df.to_csv(f"embeddings-{self.unique_filename}", encoding='utf-8', index=False)
         return df
 
@@ -226,7 +259,11 @@ class RAGKnowledgePromptAgent:
 
         best_chunk = df.loc[df['similarity'].idxmax(), 'text']
 
-        client = OpenAI(base_url="https://openai.vocareum.com/v1", api_key=self.openai_api_key)
+        client = OpenAI(
+            base_url="https://openai.vocareum.com/v1",
+            api_key=self.openai_api_key,
+            timeout=30.0  # Add 30-second timeout to prevent indefinite hangs
+        )
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
