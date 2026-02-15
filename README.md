@@ -76,21 +76,3 @@ python agentic_workflow_simple.py
 
 - Logging/Error Handling README](starter/phase_2/README_LOG_EH.md) - Detailed guide for the logging and handling features
 
-## Project Structure
-
-```
-agentic-email-router/
-├── requirements.txt          # Python dependencies
-├── .env.example             # API key template
-├── README.md                # This file
-└── starter/
-    ├── phase_1/             # Individual agents
-    │   ├── action_planning_agent.py
-    │   ├── routing_agent.py
-    │   └── workflow_agents/base_agents.py
-    └── phase_2/             # Integrated workflow
-        ├── agentic_workflow_simple.py  # Main workflow
-        ├── simple_logging.py            # Logging utilities
-        ├── Product-Spec-Email-Router.txt
-        └── README_LOG_EH.md             # Detailed doc
-```
