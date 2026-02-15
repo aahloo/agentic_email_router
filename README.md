@@ -11,7 +11,7 @@ AI-powered agentic workflow system for automated email routing and product manag
 - Routing Agent
 - RAG Knowledge Prompt Agent
 
-### Phase 2: Integrated Workflow (Simplified Solution)
+### Phase 2: Integrated Workflow (with basic logging and error handling)
 - Minimal logging infrastructure (`simple_logging.py`)
 - Workflow with basic error handling
 - Multi-agent orchestration for:
